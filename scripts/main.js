@@ -12,6 +12,7 @@ const closeFormButton = document.querySelector('.close-form');
 const taskList = document.querySelector('.task-list');
 const taskListItems = document.querySelector('.task-list-items');
 const deleteTaskButton = document.querySelector('task-delete');
+const taskDetailContainer = document.querySelector('.task-details-container');
 const tasks = [];
 let html = '';
 
@@ -26,16 +27,17 @@ openFormButton.addEventListener('click', () => {
 document.addEventListener("keydown", (event) => {
    if (event.key == 'Escape') {
       taskFormContainer.style.display = 'none';
+      taskDetailContainer.style.display = 'none';
    }
 });
 
 document.addEventListener("click", (event) => {
    if (event.target == taskFormContainer) {
       taskFormContainer.style.display = 'none';
+   } else if (event.target == taskDetailContainer) {
+      taskDetailContainer.style.display = 'none';
    }
-})
-
-
+});
 
 addTaskButton.addEventListener('click', (event) => {
    event.preventDefault();
@@ -75,7 +77,7 @@ function renderTask() {
                <option value="in-progress">In Progress</option>
                <option value="completed">Completed</option>
             </select>
-            <button class="task-details" id="${task.taskId}" onClick="">Подробнее</button>
+            <button class="task-d" id="${task.taskId}" onClick="detailTask(this)">Подробнее</button>
             <button class="task-delete" id="${task.taskId}" onClick="deleteTask(this)">Удалить задачу</button>
          </div>
       `
@@ -94,6 +96,26 @@ function deleteTask(e) {
    renderTask();
 }
 
-function detailTask() {
+function detailTask(t) {
+   tasks.forEach((task, index) => {
+      if (task.taskId == t.id) {
+         renderDetailTask(task)
+      }
+   })
+}
+
+function renderDetailTask(task) {
+   let dhtml = '';
    
+   dhtml = `
+      <div class="task-details">
+         <h2>${task.taskTitle}</h2>
+         <p>${task.taskDeadline}</p>
+         <p>${task.taskDescription}</p>
+         <button>Закрыть</button>
+      </div>
+   `
+
+   taskDetailContainer.style.display = 'flex';
+   taskDetailContainer.innerHTML = dhtml;
 }
