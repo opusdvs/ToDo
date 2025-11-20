@@ -112,10 +112,14 @@ function renderDetailTask(task) {
          <h2>${task.taskTitle}</h2>
          <p>${task.taskDeadline}</p>
          <p>${task.taskDescription}</p>
-         <button>Закрыть</button>
+         <button class="close-task-ditails" onClick=cloceTaskDetails()>Закрыть</button>
       </div>
    `
 
    taskDetailContainer.style.display = 'flex';
    taskDetailContainer.innerHTML = dhtml;
+}
+
+function cloceTaskDetails() {
+   taskDetailContainer.style.display = 'none';
 }
